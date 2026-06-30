@@ -1,7 +1,7 @@
-package com.example.Arduino.service;
+package arduino.service;
 
-import com.example.Arduino.entity.Project;
-import com.example.Arduino.repository.ProjectRepository;
+import arduino.entity.Project;
+import arduino.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

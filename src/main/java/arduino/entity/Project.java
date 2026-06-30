@@ -1,4 +1,4 @@
-package com.example.Arduino.entity;
+package arduino.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.example.Arduino.controller;
+package arduino.controller;
 
-import com.example.Arduino.entity.Project;
-import com.example.Arduino.service.ProjectService; // Import the service
+import arduino.entity.Project;
+import arduino.service.ProjectService; // Import the service
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

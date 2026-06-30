@@ -1,6 +1,6 @@
-package com.example.Arduino.repository;
+package arduino.repository;
 
-import com.example.Arduino.entity.Project;
+import arduino.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

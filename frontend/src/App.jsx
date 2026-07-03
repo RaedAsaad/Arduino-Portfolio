@@ -1,13 +1,33 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import {
+  Container,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardActionArea,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider
+} from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import BuildIcon from '@mui/icons-material/Build';
 
 function App() {
   const [projects, setProjects] = useState([]);
-  
-  // State variables to capture input values from our form fields
+
+  // Form input states
   const [title, setTitle] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [completionDate, setCompletionDate] = useState('');
+
+  // State to track which project card is clicked for the detail modal
+  const [selectedProject, setSelectedProject] = useState(null);
 
   // 1. Fetch existing data from the database
   const fetchProjects = () => {
@@ -23,12 +43,12 @@ function App() {
 
   // 2. Handle form submission to send data to Spring Boot
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents the browser from reloading the entire page
+    e.preventDefault();
 
     const newProjectPayload = {
       title: title,
       shortDescription: shortDescription,
-      completionDate: completionDate || null // If empty, backend will default it
+      completionDate: completionDate || null
     };
 
     fetch('http://localhost:8085/api/projects', {
@@ -40,10 +60,7 @@ function App() {
     })
       .then((res) => res.json())
       .then((savedProject) => {
-        // Optimistically update frontend state by appending the newly saved project
         setProjects([...projects, savedProject]);
-        
-        // Clear out the input boxes for the next entry
         setTitle('');
         setShortDescription('');
         setCompletionDate('');
@@ -52,50 +69,128 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      
-      {/* Dynamic Data Entry Form */}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '40px', padding: '15px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h3>Log a New Build</h3>
-        
-        <input 
-          type="text" 
-          placeholder="Project Title (e.g., arduino Uno Sonar)"
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          required 
-        />
-        
-        <textarea 
-          placeholder="What did you build? Mention components like resistors, sensors, etc." 
-          value={shortDescription} 
-          onChange={(e) => setShortDescription(e.target.value)} 
-          required 
-        />
-        
-        <input 
-          type="date" 
-          value={completionDate} 
-          onChange={(e) => setCompletionDate(e.target.value)} 
-        />
-        
-        <button type="submit" style={{ cursor: 'pointer', padding: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
-          Save Project
-        </button>
-      </form>
+    <Container maxWidth="md" style={{ marginTop: '40px', marginBottom: '40px' }}>
 
-      {/* Existing Cards Display Layout */}
-      <div>
+      {/* Title Header */}
+      <Box display="flex" alignItems="center" gap={1} mb={4}>
+        <BuildIcon color="primary" fontSize="large" />
+        <Typography variant="h4" component="h1" fontWeight="bold">
+          Arduino Dev Portfolio
+        </Typography>
+      </Box>
+
+      {/* Predesigned Form Section */}
+      <Card variant="outlined" sx={{ mb: 5, p: 2, borderRadius: '12px', boxShadow: 1 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom fontWeight="600">
+            Log a New Build
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+            <TextField
+              label="Project Title"
+              variant="outlined"
+              fullWidth
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g., Arduino Uno Sonar"
+              required
+            />
+            <TextField
+              label="What did you build?"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={3}
+              value={shortDescription}
+              onChange={(e) => setShortDescription(e.target.value)}
+              placeholder="Mention components like resistors, sensors, microcontrollers, etc."
+              required
+            />
+            <TextField
+              label="Completion Date"
+              type="date"
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={completionDate}
+              onChange={(e) => setCompletionDate(e.target.value)}
+            />
+            <Button type="submit" variant="contained" size="large" sx={{ mt: 1, py: 1.2 }}>
+              Save Project
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+
+      <Typography variant="h5" gutterBottom fontWeight="600" mb={2}>
+        My Projects
+      </Typography>
+
+      {/* Grid Layout Displaying Side-by-Side Cards */}
+      <Grid container spacing={3}>
         {projects.map((project) => (
-          <div key={project.id} className="card" style={{ border: '1px solid #e0e0e0', padding: '15px', borderRadius: '8px', marginBottom: '15px' }}>
-            <h2>{project.title}</h2>
-            <p>{project.shortDescription}</p>
-            <small>Completed: {project.completionDate}</small>
-          </div>
+          <Grid item xs={12} sm={6} key={project.id}>
+            <Card sx={{ height: '100%', borderRadius: '12px', boxShadow: 2 }}>
+              {/* CardActionArea gives it a neat ripple effect when clicked */}
+              <CardActionArea sx={{ height: '100%', p: 1 }} onClick={() => setSelectedProject(project)}>
+                <CardContent>
+                  <Typography variant="h6" component="h2" fontWeight="bold" gutterBottom noWrap>
+                    {project.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2, height: '40px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                    {project.shortDescription}
+                  </Typography>
+                  <Box display="flex" alignItems="center" gap={0.5} color="text.secondary">
+                    <CalendarTodayIcon fontSize="small" />
+                    <Typography variant="caption">
+                      {project.completionDate ? project.completionDate : 'No date provided'}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
         ))}
-      </div>
+      </Grid>
 
-    </div>
+      {/* Predesigned Dialog Modal View for Detailed Project Layout */}
+      <Dialog
+        open={Boolean(selectedProject)}
+        onClose={() => setSelectedProject(null)}
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{ sx: { borderRadius: '16px', p: 1 } }}
+      >
+        {selectedProject && (
+          <>
+            <DialogTitle>
+              <Typography variant="h5" fontWeight="bold">{selectedProject.title}</Typography>
+              <Box display="flex" alignItems="center" gap={0.5} color="text.secondary" mt={1}>
+                <CalendarTodayIcon fontSize="small" />
+                <Typography variant="body2">
+                  Completed: {selectedProject.completionDate ? selectedProject.completionDate : 'N/A'}
+                </Typography>
+              </Box>
+            </DialogTitle>
+            <Divider variant="middle" />
+            <DialogContent>
+              <Typography variant="subtitle1" fontWeight="600" gutterBottom>
+                Full Description & Build Details:
+              </Typography>
+              <Typography variant="body1" color="text.primary" style={{ whiteSpace: 'pre-wrap' }}>
+                {selectedProject.shortDescription}
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setSelectedProject(null)} variant="outlined" color="primary">
+                Close
+              </Button>
+            </DialogActions>
+          </>
+        )}
+      </Dialog>
+
+    </Container>
   );
 }
 

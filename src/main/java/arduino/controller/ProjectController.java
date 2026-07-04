@@ -1,6 +1,6 @@
 package arduino.controller;
 
-import arduino.entity.Project;
+import arduino.entity.ProjectEntity;
 import arduino.service.ProjectService; // Import the service
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ public class ProjectController {
 
     // Fetch all projects
     @GetMapping("/projects")
-    public List<Project> getAllProjects() {
+    public List<ProjectEntity> getAllProjects() {
         return projectService.getAllProjects(); // Delegate to service
     }
 
     // Create a new project entry dynamically
     @PostMapping("/projects")
-    public Project createProject(@RequestBody Project newProject) {
+    public ProjectEntity createProject(@RequestBody ProjectEntity newProject) {
         return projectService.saveProject(newProject); // Delegate to service
     }
 }

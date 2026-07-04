@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './AdminLoginForm.scss';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Height } from '@mui/icons-material';
 
 export default function AdminLoginForm({ onClose, onLoginSuccess }) {
     const [username, setUsername] = useState('');
@@ -37,7 +38,26 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
         <div>
           <div className="form-background">
             <form onSubmit={handleSubmit}>
-              <TextField id="standard-basic" label="Standard" variant="standard" />
+              <h1 className='login-header'>Login</h1>
+                <div className='inputs'>
+                  <input 
+                    id="standard-basic-username-input" 
+                    className='username-input-field input' 
+                    placeholder="Username" 
+                    variant="standard" 
+                  />       
+                  <input 
+                    id="standard-basic-password-input" 
+                    className='password-input-field input' 
+                    placeholder="Password" 
+                    type="password" 
+                    variant="standard" 
+                    required
+                  />                </div>
+                <div className='form-buttons'>
+                  <button type='submit' className='submit-button button'>Submit</button>
+                  <button type='clear' className='clear-button button'>Clear</button>
+                </div>
             </form>
           </div>
         </div>

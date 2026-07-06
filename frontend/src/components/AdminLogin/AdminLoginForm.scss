@@ -17,20 +17,20 @@ body {
   font-size: 50px;
   margin-bottom: 55px;
   color: #CDFFFF;
-  text-shadow: 0px 0px 10px #67d4d4;
+  text-shadow: 0px 0px 50px #67d4d4;
 }
 form {
   padding: 15px;
   background-color: #1B242D;
   width: 320px;
   height: 310px;
-  box-shadow: 0px 0px 150px #415879;
+  box-shadow: 0px 0px 50px #415879;
   border: 2px solid #009ad2;
   border-radius: 10px;
   transition-duration: .2s;
 }
 form:hover {
-  box-shadow: 0px 0px 50px #415879;
+  box-shadow: 0px 0px 150px #415879;
 }
 .inputs {
   display: flex;
@@ -51,13 +51,19 @@ form:hover {
   outline: none;
   border-bottom: 1px dashed black;
   border-width: 1px;
-  color: #CDFFFF;
+  color: #e1e1e1;
+  padding: 8px;
+  transition-duration: .7s;
+}
+.inputs input::placeholder {
+  color: rgb(0, 179, 255);
+}
+.inputs input:focus {
+  outline: 1px solid greenyellow;
+  border-radius: 15px;
 }
 .inputs .password-input-field::-ms-reveal {
   filter: invert(100%);
-}
-.inputs .password-input-field {
-  color: purple;
 }
 .form-buttons {
   width: 90%;
@@ -78,6 +84,10 @@ form:hover {
   cursor: pointer;
   box-shadow: 5px 5px 25px rgb(99, 99, 99);
   border-radius: 10px;
+  transition-duration: .3s;
+}
+.form-buttons .button:hover {
+  box-shadow: 3px 3px 10px black;
 }
 .form-buttons .clear-button {
   color: purple;
@@ -87,4 +97,7 @@ form:hover {
   color: #CDFFFF;
   border: 3px solid #CDFFFF;
   background-color: #008d97;
+}
+.error-text {
+  color: red;
 }

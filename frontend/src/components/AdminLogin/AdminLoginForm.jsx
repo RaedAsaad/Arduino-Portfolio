@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import './AdminLoginForm.scss';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { Height } from '@mui/icons-material';
 
-export default function AdminLoginForm({ onClose, onLoginSuccess }) {
+function AdminLoginForm({ onClose, onLoginSuccess }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -14,7 +11,7 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:8080/api/auth/login', {
+            const response = await fetch('http://localhost:8085/api/auth/login', {
              method: 'POST',
              headers: {
                  'Content-Type': 'application/json',
@@ -34,6 +31,12 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
         }
     };
 
+    const handleClear = () => {
+      setUsername('');
+      setPassword('');
+      setError('');
+    }
+
     return (
         <div>
           <div className="form-background">
@@ -44,7 +47,10 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
                     id="standard-basic-username-input" 
                     className='username-input-field input' 
                     placeholder="Username" 
-                    variant="standard" 
+                    variant="standard"
+                    value={username}
+                    required
+                    onChange={(e) => setUsername(e.target.value)}
                   />       
                   <input 
                     id="standard-basic-password-input" 
@@ -53,10 +59,14 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
                     type="password" 
                     variant="standard" 
                     required
-                  />                </div>
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />                
+                  {error && <p className="error-text">{error}</p>}
+                </div>
                 <div className='form-buttons'>
                   <button type='submit' className='submit-button button'>Submit</button>
-                  <button type='clear' className='clear-button button'>Clear</button>
+                  <button type='button' className='clear-button button' onClick={handleClear}>Clear</button>
                 </div>
             </form>
           </div>
@@ -64,3 +74,5 @@ export default function AdminLoginForm({ onClose, onLoginSuccess }) {
     )
 
 }
+
+export default AdminLoginForm;

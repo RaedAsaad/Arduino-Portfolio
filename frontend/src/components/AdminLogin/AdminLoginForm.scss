@@ -1,0 +1,103 @@
+body {
+  background-color: #10121B;
+}
+#root {
+  border: none;
+}
+.form-background {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  height: 100vh; /* Full viewport height */
+  margin: 0; /* Removes default margin */
+}
+.login-header {
+  font-weight: 100;
+  font-size: 50px;
+  margin-bottom: 55px;
+  color: #CDFFFF;
+  text-shadow: 0px 0px 50px #67d4d4;
+}
+form {
+  padding: 15px;
+  background-color: #1B242D;
+  width: 320px;
+  height: 310px;
+  box-shadow: 0px 0px 50px #415879;
+  border: 2px solid #009ad2;
+  border-radius: 10px;
+  transition-duration: .2s;
+}
+form:hover {
+  box-shadow: 0px 0px 150px #415879;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+  height: 123px;
+  align-items: center;
+  justify-content: space-around;
+  color: #CDFFFF;
+}
+.inputs::target-text {
+  color: #CDFFFF;
+}
+.inputs input {
+  width: 230px;
+  height: 30px;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 1px dashed black;
+  border-width: 1px;
+  color: #e1e1e1;
+  padding: 8px;
+  transition-duration: .7s;
+}
+.inputs input::placeholder {
+  color: rgb(0, 179, 255);
+}
+.inputs input:focus {
+  outline: 1px solid greenyellow;
+  border-radius: 15px;
+}
+.inputs .password-input-field::-ms-reveal {
+  filter: invert(100%);
+}
+.form-buttons {
+  width: 90%;
+  height: 6vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  justify-self: center;
+}
+.form-buttons .button {
+  border: none;
+  padding: 8px;
+  width: 110px;
+  height: 40px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 5px 5px 25px rgb(99, 99, 99);
+  border-radius: 10px;
+  transition-duration: .3s;
+}
+.form-buttons .button:hover {
+  box-shadow: 3px 3px 10px black;
+}
+.form-buttons .clear-button {
+  color: purple;
+  border: 3px solid rgb(166, 49, 166);
+}
+.form-buttons .submit-button {
+  color: #CDFFFF;
+  border: 3px solid #CDFFFF;
+  background-color: #008d97;
+}
+.error-text {
+  color: red;
+}

@@ -3,12 +3,14 @@ package arduino.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Data // Automatically generates getters, setters, and toString
-public class Project {
+public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,8 +20,8 @@ public class Project {
     private String title;
 
     @NotBlank(message = "Description cannot be blank")
-    @Size(max = 250, message = "Description cannot exceed 250 characters") // <-- Changed to 250
+    @Size(max = 250, message = "Description cannot exceed 250 characters")
     private String shortDescription;
     
-    private LocalDate completionDate;
+    private LocalDateTime completionDate;
 }

@@ -5,52 +5,35 @@ import './App.css';
 
 function App() {
   const [projects, setProjects] = useState([]);
-  
-  // State variables to capture input values from our form fields
-  const [title, setTitle] = useState('');
-  const [shortDescription, setShortDescription] = useState('');
-  const [completionDate, setCompletionDate] = useState('');
+  const [showLogin, setShowLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState('');
 
-  // 1. Fetch existing data from the database
-  const fetchProjects = () => {
-    fetch('http://localhost:8085/api/projects')
-      .then((res) => res.json())
-      .then((data) => setProjects(data))
-      .catch((err) => console.error('Error fetching data:', err));
+  // 1. Fetching your projects (Updated to use port 8080 to match Docker)
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/api/projects');
+      if (!response.ok) throw new Error('Failed to fetch projects');
+      const data = await response.json();
+      setProjects(data);
+    } catch (err) {
+      setError('Error fetching data: ' + err.message);
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  // 2. Handle form submission to send data to Spring Boot
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents the browser from reloading the entire page
+  const handleLoginSuccess = () => {
+    setIsAdmin(true);
+    // You can also trigger a re-fetch of projects here if admin projects are different
+  };
 
-    const newProjectPayload = {
-      title: title,
-      shortDescription: shortDescription,
-      completionDate: completionDate || null // If empty, backend will default it
-    };
-
-    fetch('http://localhost:8085/api/projects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProjectPayload),
-    })
-      .then((res) => res.json())
-      .then((savedProject) => {
-        // Optimistically update frontend state by appending the newly saved project
-        setProjects([...projects, savedProject]);
-        
-        // Clear out the input boxes for the next entry
-        setTitle('');
-        setShortDescription('');
-        setCompletionDate('');
-      })
-      .catch((err) => console.error('Error adding project:', err));
+  const handleLogout = () => {
+    setIsAdmin(false);
+    // If using JWT tokens later, you would clear the token here
   };
 
   return (

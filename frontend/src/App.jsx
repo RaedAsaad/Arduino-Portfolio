@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
-import AdminLoginForm from './components/AdminLogin/AdminLoginForm'; // Make sure the path matches your folder structure
+import { useEffect, useState } from 'react';
+import Navbar  from './components/Navbar/Navbar'
+import { handleAdminClick }  from './components/Navbar/Navbar'
+import './App.css';
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -35,48 +37,10 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Arduino Project Showcase</h1>
-        
-        {/* Navigation / Auth Buttons */}
-        <div className="auth-controls">
-          {isAdmin ? (
-            <>
-              <span className="admin-badge">Admin Mode</span>
-              <button className="nav-button" onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-            <button className="nav-button" onClick={() => setShowLogin(true)}>Admin Login</button>
-          )}
-        </div>
-      </header>
-
-      <main>
-        {/* 2. Conditionally render the Login Modal */}
-        {showLogin && (
-          <div className="modal-overlay">
-            <AdminLoginForm 
-              onClose={() => setShowLogin(false)} 
-              onLoginSuccess={handleLoginSuccess} 
-            />
-          </div>
-        )}
-
-        {/* Display project fetching errors if any */}
-        {error && <p className="error-text">{error}</p>}
-
-        {/* 3. Your main content / project list */}
-        <div className="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="project-card">
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              {isAdmin && <button className="edit-btn">Edit Project</button>}
-            </div>
-          ))}
-        </div>
-      </main>
+    <div>
+      <Navbar onAdminClick={handleAdminClick} />
+      
+      {/* Rest of your page components go here */}
     </div>
   );
 }
